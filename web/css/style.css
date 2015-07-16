@@ -1,0 +1,48 @@
+tr:active{
+	background-color: #333;
+}
+
+.form-signin{
+	max-width: 360px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.form-signin input{
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#search-form{
+	margin: 10px 0px 10px 15px;
+	float: right;
+}
+
+#buttons form{
+	margin: 10px 10px 10px 0px;
+	display: inline-block;
+	float: left;
+}
+
+#rows_selector{
+	margin: 10px 0px 10px 15px;
+	float: right;
+	max-width: 150px;
+}
+
+.last {
+	float: right;	
+}
+
+.form-horizontal {
+	margin-left: 20px;
+	margin-bottom: 30px;
+}
+
+#logout-form form{
+	float: right;
+	margin-top: 25px;
+	margin-right: -15px;
+}
