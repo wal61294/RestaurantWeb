@@ -60,7 +60,7 @@
 
             <c:forEach items="${aOrders}" var="aOrder">
                 <tr>
-                    <td>${aOrder.getId()}</td>
+                    <td>${aOrder.getClientId()}</td>
                     <td>${aOrder.getCost()}</td>
                 </tr>
 
@@ -78,8 +78,8 @@
 
         <c:forEach items="${rOrders}" var="rOrder">
             <tr>
-                <td>${rOrder.getClientId()}</td>
-                <td>${rOrder.getCost()}</td>
+                <td>${rOrder.clientId}</td>
+                <td>${rOrder.cost}</td>
             </tr>
 
         </c:forEach>

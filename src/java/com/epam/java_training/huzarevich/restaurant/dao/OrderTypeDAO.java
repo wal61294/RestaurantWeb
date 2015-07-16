@@ -12,14 +12,16 @@ import com.epam.java_training.huzarevich.restaurant.entity.Entity;
 import com.epam.java_training.huzarevich.restaurant.entity.OrderStatus;
 import com.epam.java_training.huzarevich.restaurant.exceptions.PoolException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public class OrderTypeDAO implements IDAO {
-     private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
+
+    private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
+    private Logger logger = Logger.getLogger(this.getClass());
+
     @Override
     public Integer create(Entity instance) {
-          throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -27,10 +29,8 @@ public class OrderTypeDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderTypeDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderTypeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("type.read");
         PreparedStatement stm;
@@ -45,7 +45,12 @@ public class OrderTypeDAO implements IDAO {
             status.setId(rs.getInt("id_order_status"));
             status.setStatus(rs.getString("status"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
         return status;
 
@@ -58,25 +63,21 @@ public class OrderTypeDAO implements IDAO {
 
     @Override
     public void delete(Entity instance) {
+        String sql = resource.getString("type.delete");
+        Connection connection = null;
         try {
-            Connection connection;
-            
             connection = DBConnectionPool.getInstance().getConnection();
-            
             OrderStatus status = (OrderStatus) instance;
-            
             PreparedStatement stmt = connection
-                    .prepareStatement("delete from restaurantDB.order_status WHERE id_order_status = ?");
+                    .prepareStatement(sql);
             stmt.setInt(1, status.getId());
             stmt.execute();
             DBConnectionPool.getInstance().closeConnection(connection);
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderTypeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(OrderTypeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
-        
-
     }
 
     @Override

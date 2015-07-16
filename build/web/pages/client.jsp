@@ -46,8 +46,8 @@
             </tr>
             <c:forEach items="${foods}" var="food">
                 <tr>
-                    <td>${food.getFoodName()}</td>
-                    <td>${food.getPrice()}</td>
+                    <td>${food.foodName}</td>
+                    <td>${food.price}</td>
                 </tr>
             </c:forEach>
         </table>

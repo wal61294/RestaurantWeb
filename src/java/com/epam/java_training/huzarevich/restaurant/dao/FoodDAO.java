@@ -12,20 +12,18 @@ import com.epam.java_training.huzarevich.restaurant.entity.Food;
 import com.epam.java_training.huzarevich.restaurant.entity.Entity;
 import com.epam.java_training.huzarevich.restaurant.exceptions.PoolException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public class FoodDAO implements IDAO {
      private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
+     private Logger logger = Logger.getLogger(this.getClass());
     @Override
      public Integer create(Entity instance) {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         Food food = (Food) instance;
         int i=-1;
@@ -36,14 +34,12 @@ public class FoodDAO implements IDAO {
             preparedStmt.setInt(1, food.getFoodId());
             preparedStmt.setString(2, food.getFoodName());
             preparedStmt.setInt(3, food.getPrice());
-             i= preparedStmt.executeUpdate();
-
-             DBConnectionPool.getInstance().closeConnection(connection);
+            i= preparedStmt.executeUpdate();
+            DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-
-            e.printStackTrace();
+           logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+           logger.error(ex.getMessage());
         }
         return i;
 
@@ -54,10 +50,8 @@ public class FoodDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("food.read");
         Food food = null;
@@ -74,11 +68,10 @@ public class FoodDAO implements IDAO {
             try {
                 DBConnectionPool.getInstance().closeConnection(connection);
             } catch (PoolException ex) {
-                Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error(ex.getMessage());
             }
         } catch (SQLException e) {
-
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return food;
 
@@ -89,10 +82,8 @@ public class FoodDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         Food food = (Food) instance;
         String query=resource.getString("food.update");
@@ -105,11 +96,11 @@ public class FoodDAO implements IDAO {
             stmt.setInt(3, food.getFoodId());
             stmt.execute();
             stmt.close();
-             DBConnectionPool.getInstance().closeConnection(connection);
+            DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }
@@ -124,10 +115,8 @@ public class FoodDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String query = resource.getString("food.getAll");;
         PreparedStatement stm;
@@ -146,10 +135,9 @@ public class FoodDAO implements IDAO {
             }
              DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-
-            e.printStackTrace();
+              logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
+              logger.error(ex.getMessage());
         }
         return list;
     }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.epam.java_training.huzarevich.restaurant.command;
 
 import com.epam.java_training.huzarevich.restaurant.dao.DAOFactory;
@@ -14,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
- *
+ *<p>
+ *This command updates food
+ * </p>
  * @author huz
  */
 public class UpdateFoodCommand extends Command {

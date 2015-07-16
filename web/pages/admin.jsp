@@ -44,9 +44,9 @@
             </tr>
             <c:forEach items="${clients}" var="client">
                 <tr>
-                    <td>${client.getId()}</td>
-                    <td>${client.getName()}</td>
-                    <td>${client.getMoney()}
+                    <td>${client.id}</td>
+                    <td>${client.name}</td>
+                    <td>${client.money}
 
                 </tr>
             </c:forEach>

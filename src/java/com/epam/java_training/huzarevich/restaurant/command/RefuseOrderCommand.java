@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.epam.java_training.huzarevich.restaurant.command;
 
 import com.epam.java_training.huzarevich.restaurant.dao.DAOFactory;
@@ -15,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * <p>
+ *This command gives Administrator abitity to refuse orders made by Client and sets lists with orders to jsp page
+ * </p>
  * @author huz
  */
 public class RefuseOrderCommand extends Command{
@@ -31,12 +29,10 @@ public class RefuseOrderCommand extends Command{
                  Order or =(Order)i;
                  orders.add(or);
              }
-             
              List <Order> notWatched=new ArrayList<>();
              List <Order> refused=new ArrayList<>();
              List <Order> accepted=new ArrayList<>();
              for(Order o:orders){
-              
                if (o.getOrderStatus()==1){
                    notWatched.add(o);
                }else if(o.getOrderStatus()==2){

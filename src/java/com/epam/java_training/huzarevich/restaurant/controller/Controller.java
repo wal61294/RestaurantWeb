@@ -17,33 +17,36 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * <p>
+ * Servlet implementation class Controller
+ * </p>
  *
  * @author huz
  */
 public class Controller extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @see HttpServlet#HttpServlet()
      */
+    public Controller() {
+        super();
+    }
+
     @Override
     public void destroy() {
         // delete all resources
-
         super.destroy();
     }
 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userPath = request.getServletPath();
         String userAction = request.getParameter("action");
         String url = "/pages/";
-
         CommandFactory commands = CommandFactory.getInstance();
         Command command = null;
 
@@ -94,25 +97,24 @@ public class Controller extends HttpServlet {
             command.execute(request, response);
             url += "ViewOrders.jsp";
         }
-
         request.getRequestDispatcher(url).forward(request, response);
     }
 
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
         String url = "/pages/";
-
         HttpSession session = request.getSession();
         CommandFactory commands = CommandFactory.getInstance();
         Command command = null;
-
         if (userPath.equals("/check-login")) {
-
             command = commands.getCommand(Commands.LOGIN);
             command.execute(request, response);
-
             if (session.getAttribute("user") == null) {
                 url += "login.jsp";
             } else {
@@ -122,7 +124,6 @@ public class Controller extends HttpServlet {
                 } else {
                     url += "client.jsp";
                 }
-
             }
         } else if (userPath.equals("/choice-registration")) {
             if (!request.getParameter("password").equals(request.getParameter("passwordConfirm"))) {
@@ -145,7 +146,6 @@ public class Controller extends HttpServlet {
                         url += "registration-client.jsp";
                         session.setAttribute("register_type", DAOs.CLIENT);
                     }
-
                 }
             }
         } else if (userPath.equals("/check-registration")) {
@@ -172,27 +172,20 @@ public class Controller extends HttpServlet {
             command = commands.getCommand(Commands.ADD_FOOD);
             command.execute(request, response);
             url += "editProducts.jsp";
-
         } else if (userPath.equals("/update-food")) {
             command = commands.getCommand(Commands.UPDATE_FOOD);
             command.execute(request, response);
             url += "editProducts.jsp";
         } else if (userPath.equals("/do-order")) {
-
             command = commands.getCommand(Commands.DO_ORDER);
             command.execute(request, response);
             url += "ViewOrders.jsp";
-
         } else if (userPath.equals("/cancel-order")) {
-
             command = commands.getCommand(Commands.CANCEL_ORDER);
             command.execute(request, response);
             url += "ViewOrders.jsp";
-
         }
-
         request.getRequestDispatcher(url).forward(request, response);
 
     }
-
 }

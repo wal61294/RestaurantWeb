@@ -1,22 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.epam.java_training.huzarevich.restaurant.command;
 
 import com.epam.java_training.huzarevich.restaurant.dao.DAOFactory;
 import com.epam.java_training.huzarevich.restaurant.dao.DAOs;
 import com.epam.java_training.huzarevich.restaurant.entity.Entity;
 import com.epam.java_training.huzarevich.restaurant.entity.Order;
-import com.epam.java_training.huzarevich.restaurant.entity.OrderStatus;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ *<p>
+ * Prepares orders info for admin
+ * </p>
  * @author huz
  */
 public class PrepareOrderOrganisationCommand extends Command{

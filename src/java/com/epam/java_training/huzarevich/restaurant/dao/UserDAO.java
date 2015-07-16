@@ -12,11 +12,12 @@ import com.epam.java_training.huzarevich.restaurant.entity.Entity;
 import com.epam.java_training.huzarevich.restaurant.entity.User;
 import com.epam.java_training.huzarevich.restaurant.exceptions.PoolException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
+
 
 public class UserDAO implements IDAO {
 
+    private Logger logger = Logger.getLogger(this.getClass());
     private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
 
     @Override
@@ -24,10 +25,8 @@ public class UserDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("user.getAll");
         PreparedStatement stm;
@@ -45,13 +44,14 @@ public class UserDAO implements IDAO {
 
                 list.add(user);
             }
-            try {
-                DBConnectionPool.getInstance().closeConnection(connection);
-            } catch (PoolException ex) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
         return list;
     }
@@ -61,33 +61,26 @@ public class UserDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         User user = (User) instance;
         int i = -1;
         String query = resource.getString("user.create");
-
-        
-
         try {
-         PreparedStatement   preparedStmt = connection.prepareStatement(query);
-            preparedStmt.setInt(1, user.getId()); 
+            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setInt(1, user.getId());
             preparedStmt.setString(2, user.getLogin());
             preparedStmt.setString(3, user.getPassword());
-       
+
             i = preparedStmt.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         try {
             DBConnectionPool.getInstance().closeConnection(connection);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
         return i;
@@ -99,10 +92,8 @@ public class UserDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("user.read");
         PreparedStatement stm;
@@ -118,9 +109,9 @@ public class UserDAO implements IDAO {
             user.setPassword(rs.getString("password"));
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         return user;
 
@@ -131,14 +122,12 @@ public class UserDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         User user = (User) instance;
         int x = -1;
-        String query=resource.getString("user.update");
+        String query = resource.getString("user.update");
         try {
             PreparedStatement stmt = connection
                     .prepareStatement(query);
@@ -151,9 +140,9 @@ public class UserDAO implements IDAO {
             x = stmt.executeUpdate();
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }
@@ -163,13 +152,11 @@ public class UserDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         User user = (User) instance;
-        String query=resource.getString("user.delete");
+        String query = resource.getString("user.delete");
         try {
             PreparedStatement stmt = connection
                     .prepareStatement(query);
@@ -177,8 +164,9 @@ public class UserDAO implements IDAO {
             stmt.execute();
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }
@@ -188,21 +176,16 @@ public class UserDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
-
         ResultSet rs = null;
         PreparedStatement statement = null;
         User user = (User) instance;
         User u = null;
-        String query=resource.getString("user.find");
+        String query = resource.getString("user.find");
         try {
-
-            statement = connection
-                    .prepareStatement(query);
+            statement = connection.prepareStatement(query);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
 
@@ -210,18 +193,16 @@ public class UserDAO implements IDAO {
 
             if (rs.first()) {
                 u = new User();
-                // Retrieve information from the result set.
                 u.setId(rs.getInt("user_id"));
                 u.setLogin(rs.getString("login"));
                 u.setPassword(rs.getString("password"));
-
                 u.setActivated(true);
                 DBConnectionPool.getInstance().closeConnection(connection);
-
             }
         } catch (SQLException e) {
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
         return u;

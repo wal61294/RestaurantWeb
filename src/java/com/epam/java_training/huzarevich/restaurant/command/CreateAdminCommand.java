@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ *<p>
+ * Creates new Admin profile
+ * </p>
  * @author huz
  */
 public class CreateAdminCommand extends Command {

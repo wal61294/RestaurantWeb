@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ *<p>
+ *This command gives client abitity to view his orders
+ * </p>
  * @author huz
  */
 public class ViewClientOrdersCommand extends Command {
@@ -32,22 +34,22 @@ public class ViewClientOrdersCommand extends Command {
             Order order = (Order) i;
             clientOrders.add(order);
         }
-        List <Order> notWatched=new ArrayList<>();
-             List <Order> refused=new ArrayList<>();
-             List <Order> accepted=new ArrayList<>();
-             for(Order o:clientOrders){
-              
-               if (o.getOrderStatus()==1){
-                   notWatched.add(o);
-               }else if(o.getOrderStatus()==2){
-                   accepted.add(o);
-               }else if(o.getOrderStatus()== 3){
-                   refused.add(o);
-               }
-             }
-             request.setAttribute("aOrders", accepted);
-             request.setAttribute("rOrders",refused);
-             request.setAttribute("uOrders", notWatched);
+        List<Order> notWatched = new ArrayList<>();
+        List<Order> refused = new ArrayList<>();
+        List<Order> accepted = new ArrayList<>();
+        for (Order o : clientOrders) {
+
+            if (o.getOrderStatus() == 1) {
+                notWatched.add(o);
+            } else if (o.getOrderStatus() == 2) {
+                accepted.add(o);
+            } else if (o.getOrderStatus() == 3) {
+                refused.add(o);
+            }
+        }
+        request.setAttribute("aOrders", accepted);
+        request.setAttribute("rOrders", refused);
+        request.setAttribute("uOrders", notWatched);
 
     }
 

@@ -13,20 +13,20 @@ import com.epam.java_training.huzarevich.restaurant.entity.Entity;
 import com.epam.java_training.huzarevich.restaurant.entity.User;
 import com.epam.java_training.huzarevich.restaurant.exceptions.PoolException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public class AdministratorDAO implements IDAO {
-     private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
+
+    private Logger logger = Logger.getLogger(this.getClass());
+    private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
+
     @Override
     public Entity read(int key) {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("admin.read");
         PreparedStatement stm;
@@ -41,7 +41,12 @@ public class AdministratorDAO implements IDAO {
             administrator.setUserId(rs.getInt("user_user_id"));
             administrator.setName(rs.getString("admin_name"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
         return administrator;
 
@@ -52,19 +57,17 @@ public class AdministratorDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (PoolException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("admin.getAll");
         PreparedStatement stm;
         List<Entity> list = null;
         try {
             stm = connection.prepareStatement(sql);
-
             ResultSet rs = stm.executeQuery();
-            list = new ArrayList<Entity>();
+            list = new ArrayList<>();
             while (rs.next()) {
                 Administrator administrator = new Administrator();
                 administrator.setId(rs.getInt("admin_id"));
@@ -73,35 +76,42 @@ public class AdministratorDAO implements IDAO {
                 list.add(administrator);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
         return list;
     }
 
     @Override
-     public Integer create(Entity instance) {
+    public Integer create(Entity instance) {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
-        
+
         Administrator administrator = (Administrator) instance;
-        int i=-1;
+        int i = -1;
         String query = resource.getString("admin.create");
         try {
             PreparedStatement preparedStmt = connection.prepareStatement(query);
             preparedStmt.setInt(1, administrator.getId());
             preparedStmt.setInt(2, administrator.getUserId());
             preparedStmt.setString(3, administrator.getName());
-             i= preparedStmt.executeUpdate();
+            i = preparedStmt.executeUpdate();
             connection.close();
         } catch (SQLException e) {
-
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
         return i;
     }
@@ -111,23 +121,25 @@ public class AdministratorDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
-        String query=resource.getString("admin.update");
+        String query = resource.getString("admin.update");
         Administrator administrator = (Administrator) instance;
         try {
-            PreparedStatement stmt = connection
-                    .prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, administrator.getId());
             stmt.setInt(2, administrator.getUserId());
             stmt.setString(3, administrator.getName());
             stmt.setInt(4, administrator.getId());
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
     }
 
@@ -136,20 +148,22 @@ public class AdministratorDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());;
         }
-        String query=resource.getString("admin.delete");
+        String query = resource.getString("admin.delete");
         Administrator administrator = (Administrator) instance;
         try {
-            PreparedStatement stmt = connection
-                    .prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, administrator.getId());
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
     }
 
@@ -158,37 +172,31 @@ public class AdministratorDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(AdministratorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
-
         ResultSet rs = null;
         PreparedStatement statement = null;
         User user = (User) instance;
-        String query=resource.getString("admin.find");
-        Administrator admin=null;
+        String query = resource.getString("admin.find");
+        Administrator admin = null;
         try {
-
-            statement = connection
-                    .prepareStatement(query);
+            statement = connection.prepareStatement(query);
             statement.setInt(1, user.getId());
-           
-
             rs = statement.executeQuery();
-
             if (rs.first()) {
-                admin=new Administrator();
-                // Retrieve information from the result set.
+                admin = new Administrator();
                 admin.setId(rs.getInt("admin_id"));
                 admin.setName(rs.getString("admin_name"));
-                admin.setUserId(rs.getInt("user_user_id")); 
-                
-
-                
+                admin.setUserId(rs.getInt("user_user_id"));
             }
         } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
 
         return admin;

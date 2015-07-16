@@ -12,20 +12,19 @@ import com.epam.java_training.huzarevich.restaurant.entity.Entity;
 import com.epam.java_training.huzarevich.restaurant.entity.OrderDetails;
 import com.epam.java_training.huzarevich.restaurant.exceptions.PoolException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
+
 
 public class OrderDetailsDAO implements IDAO {
       private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
+      private Logger logger = org.apache.log4j.Logger.getLogger(this.getClass());
     @Override
      public Integer create(Entity instance) {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         OrderDetails details = (OrderDetails) instance;
         int i=-1;
@@ -38,9 +37,9 @@ public class OrderDetailsDAO implements IDAO {
              i= preparedStmt.executeUpdate();
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         return i;
     }
@@ -50,10 +49,8 @@ public class OrderDetailsDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("details.read");
         PreparedStatement stm;
@@ -70,7 +67,12 @@ public class OrderDetailsDAO implements IDAO {
             details.setOrderId(rs.getInt("order_order_id"));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
         return details;
     }
@@ -80,10 +82,8 @@ public class OrderDetailsDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String query=resource.getString("details.update");
         OrderDetails details = (OrderDetails) instance;
@@ -96,7 +96,12 @@ public class OrderDetailsDAO implements IDAO {
             stmt.setInt(4, details.getId());
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
     }
 
@@ -105,20 +110,22 @@ public class OrderDetailsDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String query=resource.getString("details.delete");
         OrderDetails details = (OrderDetails) instance;
         try {
-            PreparedStatement stmt = connection
-                    .prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, details.getId());
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
 
     }
@@ -128,10 +135,8 @@ public class OrderDetailsDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         String sql = resource.getString("details.getAll");
         PreparedStatement stm;
@@ -149,7 +154,12 @@ public class OrderDetailsDAO implements IDAO {
                 list.add(details);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        try {
+            DBConnectionPool.getInstance().closeConnection(connection);
+        } catch (PoolException ex) {
+            logger.error(ex.getMessage());
         }
         return list;
 

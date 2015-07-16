@@ -43,8 +43,8 @@
             <c:forEach items="${uOrders}" var="uOrder">
                 <tr>
 
-                    <td>${uOrder.getId()}</td>
-                    <td>${uOrder.getCost()}</td>
+                    <td>${uOrder.id}</td>
+                    <td>${uOrder.cost}</td>
                     <td><a href="Controller?action=seeFull&orderId=<c:out value="${uOrder.getId()}"/>"><fmt:message key="button.full_info"/></a></td>
                     <td><a href="Controller?action=deleteOrder&orderId=<c:out value="${uOrder.getId()}"/>"><fmt:message key="button.cancel_order"/></a></td>
                 </tr>

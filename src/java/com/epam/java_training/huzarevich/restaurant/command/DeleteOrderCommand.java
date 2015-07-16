@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ **<p>
+ * Deletes order
+ * </p>
  * @author huz
  */
 public class DeleteOrderCommand extends Command {

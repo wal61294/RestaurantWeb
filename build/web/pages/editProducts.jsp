@@ -39,8 +39,8 @@
             </tr>
             <c:forEach items="${foods}" var="food">
                 <tr>
-                    <td>${food.getFoodName()}</td>
-                    <td>${food.getPrice()}</td>
+                    <td>${food.foodName}</td>
+                    <td>${food.price}</td>
                     <td><a href="Controller?action=update&foodId=<c:out value="${food.getFoodId()}"/>"><fmt:message key="button.edit"/></a></td>
                 </tr>
             </c:forEach>

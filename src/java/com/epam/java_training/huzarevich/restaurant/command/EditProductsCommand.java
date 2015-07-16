@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.epam.java_training.huzarevich.restaurant.command;
 
 import com.epam.java_training.huzarevich.restaurant.dao.DAOFactory;
@@ -15,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ **<p>
+ * Allows admin to edit products
+ * </p>
  *
  * @author huz
  */
@@ -25,13 +23,13 @@ class EditProductsCommand extends Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        List<Food>foods=new ArrayList<>();
-                for(Entity instance :DAOFactory.getDAO(DAOs.FOOD).getAll()){
-                    Food food=(Food)instance;
-                    foods.add(food);
-                }
-                
-                request.setAttribute("foods", foods);
+        List<Food> foods = new ArrayList<>();
+        for (Entity instance : DAOFactory.getDAO(DAOs.FOOD).getAll()) {
+            Food food = (Food) instance;
+            foods.add(food);
+        }
+
+        request.setAttribute("foods", foods);
     }
 
 }

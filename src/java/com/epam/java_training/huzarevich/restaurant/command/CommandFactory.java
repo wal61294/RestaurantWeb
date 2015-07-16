@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.epam.java_training.huzarevich.restaurant.command;
 
-import java.util.HashMap;
-
 /**
- *
+ *<p>
+ * Command factory
+ * </p>
+ * Realization of Singleton
  * @author huz
  */
 public class CommandFactory {

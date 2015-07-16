@@ -17,10 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * <p>
+ *    Prepares info for creating new order
+ * </p>
  *
  * @author huz
  */
-public class PrepareOrderCommand extends Command{
+public class PrepareOrderCommand extends Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -29,12 +32,12 @@ public class PrepareOrderCommand extends Command{
             Food food = (Food) instance;
             foods.add(food);
         }
-        Client client=(Client) DAOFactory.getDAO(DAOs.CLIENT).find((Entity) request.getSession().getAttribute("user"));
-        Order order=new Order();
+        Client client = (Client) DAOFactory.getDAO(DAOs.CLIENT).find((Entity) request.getSession().getAttribute("user"));
+        Order order = new Order();
         order.setClientId(client.getId());
         request.getSession().setAttribute("clientId", client.getId());
         DAOFactory.getDAO(DAOs.ORDER).create(order);
         request.setAttribute("foods", foods);
     }
-    
+
 }

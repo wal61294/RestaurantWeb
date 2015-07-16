@@ -5,15 +5,12 @@
  */
 package com.epam.java_training.huzarevich.restaurant.command;
 
-import com.epam.java_training.huzarevich.restaurant.connection_pool.DBConnectionPool;
 import com.epam.java_training.huzarevich.restaurant.dao.DAOFactory;
 import com.epam.java_training.huzarevich.restaurant.dao.DAOs;
-import com.epam.java_training.huzarevich.restaurant.dao.IDAO;
 import com.epam.java_training.huzarevich.restaurant.dao.UserDAO;
 import com.epam.java_training.huzarevich.restaurant.entity.Client;
 import com.epam.java_training.huzarevich.restaurant.entity.Food;
 import com.epam.java_training.huzarevich.restaurant.entity.Entity;
-import com.epam.java_training.huzarevich.restaurant.entity.Order;
 import com.epam.java_training.huzarevich.restaurant.entity.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ *Login command
+ * *<p>
+ *     command find user in dband if user exists sets notActivated attribute false
+ * </p>
  * @author huz
  */
 public class LoginCommand extends Command {

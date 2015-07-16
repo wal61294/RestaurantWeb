@@ -34,8 +34,8 @@
                 </tr>
                 <c:forEach items="${foods}" var="food">
                     <tr>
-                        <td>${food.getFoodName()}</td>
-                        <td>${food.getPrice()}</td>
+                        <td>${food.foodName}</td>
+                        <td>${food.price}</td>
                         <td><input type="checkbox" class="checkbox" name="chooseFood" value="${food.getFoodId()}"></td>
                     </tr>
                 </c:forEach>

@@ -7,11 +7,8 @@ package com.epam.java_training.huzarevich.restaurant.command;
 
 import com.epam.java_training.huzarevich.restaurant.dao.DAOFactory;
 import com.epam.java_training.huzarevich.restaurant.dao.DAOs;
-import com.epam.java_training.huzarevich.restaurant.dao.FoodDAO;
 import com.epam.java_training.huzarevich.restaurant.dao.IDAO;
 import com.epam.java_training.huzarevich.restaurant.dao.OrderDAO;
-import com.epam.java_training.huzarevich.restaurant.dao.OrderDetailsDAO;
-import com.epam.java_training.huzarevich.restaurant.dao.OrderTypeDAO;
 import com.epam.java_training.huzarevich.restaurant.entity.Food;
 import com.epam.java_training.huzarevich.restaurant.entity.Order;
 import com.epam.java_training.huzarevich.restaurant.entity.OrderDetails;
@@ -21,7 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ **<p>
+ * Allows client to choose food and then add id to order
+ * </p>
  * @author huz
  */
 public class DoOrderCommand extends Command {

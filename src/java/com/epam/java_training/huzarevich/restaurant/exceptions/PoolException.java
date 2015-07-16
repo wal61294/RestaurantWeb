@@ -32,6 +32,7 @@ public class PoolException extends Exception{
 
     public void setPropertyMessage(String propertyMessage) {
         this.propertyMessage = propertyMessage;
-    }	
+    }
+    
     
 }

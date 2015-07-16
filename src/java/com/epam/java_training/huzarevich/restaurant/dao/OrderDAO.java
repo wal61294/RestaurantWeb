@@ -13,22 +13,21 @@ import com.epam.java_training.huzarevich.restaurant.entity.Order;
 import com.epam.java_training.huzarevich.restaurant.exceptions.PoolException;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public class OrderDAO implements IDAO {
+
     private static ResourceBundle resource = ResourceBundle.getBundle("properties.database_queries");
+    private Logger logger = org.apache.log4j.Logger.getLogger(this.getClass());
     @Override
     public Entity read(int key) {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
-        String sql = "SELECT * FROM restaurantDB.order WHERE order_id = ?;";
+        String sql = resource.getString("order.read");;
         PreparedStatement stm;
         Order order = null;
         try {
@@ -44,8 +43,9 @@ public class OrderDAO implements IDAO {
             order.setId(rs.getInt("order_id"));
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
         return order;
@@ -57,12 +57,10 @@ public class OrderDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
-        String sql = "SELECT * FROM restaurantDB.order;";
+        String sql = resource.getString("order.getAll");
         PreparedStatement stm;
         List<Entity> list = null;
         try {
@@ -80,9 +78,9 @@ public class OrderDAO implements IDAO {
             }
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         return list;
     }
@@ -92,16 +90,12 @@ public class OrderDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         Order order = (Order) instance;
         int i = -1;
-        String query = " insert into restaurantDB.order (order_id, cost, client_id_client,"
-                + " order_status_id_order_status)"
-                + " values (?, ?, ?, ?)";
+        String query = resource.getString("order.create");
         try {
             PreparedStatement preparedStmt = connection.prepareStatement(query);
             preparedStmt.setInt(1, order.getId());
@@ -111,9 +105,9 @@ public class OrderDAO implements IDAO {
             i = preparedStmt.executeUpdate();
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());;
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         return i;
     }
@@ -123,17 +117,13 @@ public class OrderDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
+        String sql = resource.getString("order.update");
         Order order = (Order) instance;
         try {
-            PreparedStatement stmt = connection
-                    .prepareStatement("update restaurantdb.order set"
-                            + " cost = ?,  client_id_client = ?,"
-                            + "  order_status_id_order_status = ? WHERE order_id = ?");
+            PreparedStatement stmt = connection .prepareStatement(sql);
 
             stmt.setInt(1, order.getCost());
             stmt.setInt(2, order.getClientId());
@@ -142,9 +132,9 @@ public class OrderDAO implements IDAO {
             stmt.execute();
             DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }
@@ -154,22 +144,20 @@ public class OrderDAO implements IDAO {
         Connection connection = null;
         try {
             connection = DBConnectionPool.getInstance().getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         Order order = (Order) instance;
+        String sql = resource.getString("order.delete");
         try {
-            PreparedStatement stmt = connection
-                    .prepareStatement("delete from restaurantDB.order WHERE order_id = ?");
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, order.getId());
             stmt.execute();
-             DBConnectionPool.getInstance().closeConnection(connection);
+            DBConnectionPool.getInstance().closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (PoolException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }
@@ -179,11 +167,6 @@ public class OrderDAO implements IDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     *
-     * @param clientId
-     * @return
-     */
     public Entity findLastOrder(int clientId) {
         List<Order> orders = new ArrayList<>();
         for (Entity i : getAll()) {
@@ -196,6 +179,7 @@ public class OrderDAO implements IDAO {
                 neededOrders.add(o);
             }
         }
+        
         return neededOrders.getLast();
     }
 
@@ -208,6 +192,7 @@ public class OrderDAO implements IDAO {
                 orders.add(order);
             }
         }
+        
         return orders;
     }
 

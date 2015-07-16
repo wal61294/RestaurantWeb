@@ -1,7 +1,5 @@
 package com.epam.java_training.huzarevich.restaurant.dao;
 
-import java.sql.Connection;
-
 public abstract class DAOFactory {
 	public static IDAO getDAO( DAOs daos) {
 		IDAO dao = null;

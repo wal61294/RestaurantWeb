@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ **<p>
+ * Creates new Client profile
+ * </p>
  *
  * @author huz
  */
